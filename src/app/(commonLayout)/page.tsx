@@ -1,5 +1,6 @@
 import Hero from "@/components/modules/Home/Hero";
 import Specialities from "@/components/modules/Home/Specialities/Specialities";
+import TopRatedDoctors from "@/components/modules/Home/TopRatedDoctors";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       />
 
       <Specialities />
+      <TopRatedDoctors />
     </main>
   );
 }
