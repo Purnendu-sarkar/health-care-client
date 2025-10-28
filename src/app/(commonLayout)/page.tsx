@@ -1,4 +1,5 @@
 import Hero from "@/components/modules/Home/Hero";
+import Specialities from "@/components/modules/Home/Specialities/Specialities";
 
 export default function Home() {
   return (
@@ -12,6 +13,8 @@ export default function Home() {
         }}
         secondaryAction={{ text: "Learn More" }}
       />
+
+      <Specialities />
     </main>
   );
 }
