@@ -2,10 +2,15 @@ import Hero from "@/components/modules/Home/Hero";
 import Specialities from "@/components/modules/Home/Specialities/Specialities";
 import Steps from "@/components/modules/Home/steps/StepsSection";
 import Testimonials from "@/components/modules/Home/testimonials/Testimonials";
-
-
 import TopRatedDoctors from "@/components/modules/Home/TopRatedDoctors/TopRatedDoctors";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "AI-Powered Healthcare - Find Your Perfect Doctor",
+  description:
+    "Discover top-rated doctors tailored to your needs with our AI-powered healthcare platform. Get personalized recommendations and book appointments effortlessly.",
+  icons: { icon: "/favicon.ico" },
+};
 
 export default function Home() {
   return (
