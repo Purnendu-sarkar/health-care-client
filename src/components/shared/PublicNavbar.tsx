@@ -52,7 +52,7 @@ export default function HealthNavbar() {
             </Link>
           </Button>
           <Button asChild size="sm" className="rounded-full">
-            <Link href="/signup" className="flex items-center gap-2">
+            <Link href="/register" className="flex items-center gap-2">
               <User size={16} />
               <span>Sign Up</span>
             </Link>
