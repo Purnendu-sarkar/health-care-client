@@ -42,7 +42,12 @@ const RegisterForm = () => {
           {/* Password */}
           <Field>
             <FieldLabel htmlFor="password">Password</FieldLabel>
-            <Input id="password" name="password" type="password" />
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+            />
           </Field>
           {/* Confirm Password */}
           <Field className="md:col-span-2">
@@ -51,6 +56,7 @@ const RegisterForm = () => {
               id="confirmPassword"
               name="confirmPassword"
               type="password"
+              placeholder="Confirm your password"
             />
           </Field>
         </div>
