@@ -1,15 +1,11 @@
-"use client";
-
-import { useState } from "react";
+import { getCookie } from "@/services/auth/tokenHandlers";
+import { Menu } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Menu, X, User, LogIn } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
+import LogoutButton from "./LogoutButton";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 
-export default function HealthNavbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
-
+const PublicNavbar = async () => {
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/services", label: "Services" },
@@ -18,89 +14,72 @@ export default function HealthNavbar() {
     { href: "/contact", label: "Contact" },
   ];
 
+  const accessToken = await getCookie("accessToken");
+
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/70 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur  dark:bg-background/95">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo */}
         <Link href="/" className="text-2xl font-bold text-primary">
           Health<span className="text-foreground">Care</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          {navItems.map(({ href, label }) => (
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          {navItems.map((link) => (
             <Link
-              key={href}
-              href={href}
-              className={`text-sm font-medium transition-colors ${
-                pathname === href
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              key={link.label}
+              href={link.href}
+              className="text-foreground hover:text-primary transition-colors"
             >
-              {label}
+              {link.label}
             </Link>
           ))}
         </nav>
 
-        {/* Auth Buttons */}
-        <div className="hidden md:flex items-center space-x-3">
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/login" className="flex items-center gap-2">
-              <LogIn size={16} />
-              <span>Login</span>
+        <div className="hidden md:flex items-center space-x-2">
+          {accessToken ? (
+            <LogoutButton />
+          ) : (
+            <Link href="/login">
+              <Button>Login</Button>
             </Link>
-          </Button>
-          <Button asChild size="sm" className="rounded-full">
-            <Link href="/register" className="flex items-center gap-2">
-              <User size={16} />
-              <span>Sign Up</span>
-            </Link>
-          </Button>
+          )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-foreground focus:outline-none"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Menu */}
+
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline">
+                {" "}
+                <Menu />{" "}
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-4">
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              <nav className="flex flex-col space-y-4 mt-8">
+                {navItems.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="text-lg font-medium"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <div className="border-t pt-4 flex flex-col space-y-4">
+                  <div className="flex justify-center"></div>
+                  <Link href="/login" className="text-lg font-medium">
+                    <Button>Login</Button>
+                  </Link>
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden border-t bg-background">
-          <nav className="flex flex-col space-y-3 px-4 py-4 text-sm">
-            {navItems.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setIsOpen(false)}
-                className={`transition-colors ${
-                  pathname === href
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {label}
-              </Link>
-            ))}
-            <div className="flex items-center gap-2 pt-2">
-              <Button asChild variant="outline" className="flex-1">
-                <Link href="/login" onClick={() => setIsOpen(false)}>
-                  Login
-                </Link>
-              </Button>
-              <Button asChild className="flex-1 rounded-full">
-                <Link href="/signup" onClick={() => setIsOpen(false)}>
-                  Sign Up
-                </Link>
-              </Button>
-            </div>
-          </nav>
-        </div>
-      )}
     </header>
   );
-}
+};
+
+export default PublicNavbar;
